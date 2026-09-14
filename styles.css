@@ -1,0 +1,66 @@
+/* Small supplemental styles beyond Tailwind utility classes */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(52, 211, 153, 0.07), transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Dropzone drag-over state */
+#dropzone.drag-active {
+  border-color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.08);
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.25);
+}
+
+/* Custom scrollbar for a polished dark look */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 999px;
+  border: 2px solid #020617;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Motion blur toggle animation */
+#motionBlurToggle.active {
+  background-color: #34d399;
+}
+#motionBlurToggle.active #motionBlurKnob {
+  transform: translateX(1.25rem);
+}
+
+/* Intensity button active state (applied/removed via JS) */
+.intensity-btn.active {
+  border-color: #38bdf8 !important;
+  background-color: rgba(56, 189, 248, 0.1) !important;
+  color: #7dd3fc !important;
+}
+
+/* Fade-in utility for dynamically revealed sections */
+.fade-in {
+  animation: fadeIn 0.35s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Video preview elements */
+video {
+  max-height: 320px;
+  object-fit: contain;
+}
