@@ -1,5 +1,5 @@
 import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
-import { toBlobURL } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
+import { toBlobURL, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
 
 let ffmpeg = null;
 const fileInput = document.getElementById('fileInput');
@@ -82,19 +82,18 @@ if (processBtn) {
             const outputFileName = 'output.mp4';
 
             progressText.textContent = 'Reading input file...';
-            const { fetchFile } = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js');
             await ffmpeg.writeFile(inputFileName, await fetchFile(selectedFile));
 
-            // قراءة الخيارات من الواجهة
             const resolution = document.getElementById('resolutionSelect')?.value || '1080';
             const fps = document.getElementById('fpsSelect')?.value || '60';
             const motionBlur = document.getElementById('motionBlurToggle')?.checked || false;
 
-            let scaleFilter = resolution === '1080' ? 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2' : 'scale=720:1280:force_original_aspect_ratio=decrease,pad=720:1280:(ow-iw)/2:(oh-ih)/2';
+            let scaleFilter = resolution === '1080' 
+                ? 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2' 
+                : 'scale=720:1280:force_original_aspect_ratio=decrease,pad=720:1280:(ow-iw)/2:(oh-ih)/2';
             
             let vfFilters = [scaleFilter, `fps=${fps}`];
             if (motionBlur) {
-                // تصفية الموشن بلور البسيطة عبر الدمج الإطاري
                 vfFilters.push('tblend=all_mode=average');
             }
 
@@ -103,7 +102,7 @@ if (processBtn) {
                 '-vf', vfFilters.join(','),
                 '-c:v', 'libx264',
                 '-preset', 'medium',
-               '-b:v', '8M',
+                '-b:v', '8M',
                 '-maxrate', '10M',
                 '-bufsize', '16M',
                 '-pix_fmt', 'yuv420p',
